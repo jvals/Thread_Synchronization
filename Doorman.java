@@ -32,5 +32,19 @@ public class Doorman extends Thread {
 		threadIsRunning = false;
 	}
 
-	// Add more methods as needed
+	@Override
+	public void run() {
+		while (threadIsRunning) {
+			try {
+				int minimum = Globals.MIN_DOORMAN_SLEEP;
+				int maximum = Globals.MAX_DOORMAN_SLEEP;
+				sleep(minimum+(int)(Math.random()*(maximum-minimum+1)));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			customerQueue.addNewCustomer();
+			gui.println("The doorman has added a new customer to the queue.");
+		}
+	}
 }
