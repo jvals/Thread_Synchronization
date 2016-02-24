@@ -2,14 +2,19 @@
  * This class implements the doorman's part of the
  * Barbershop thread synchronization example.
  */
-public class Doorman {
+public class Doorman extends Thread {
+	private CustomerQueue customerQueue;
+	private boolean threadIsRunning;
+	private Gui gui;
 	/**
 	 * Creates a new doorman.
 	 * @param queue		The customer queue.
 	 * @param gui		A reference to the GUI interface.
 	 */
-	public Doorman(CustomerQueue queue, Gui gui) { 
-		// Incomplete
+	public Doorman(CustomerQueue queue, Gui gui) {
+		customerQueue = queue;
+		threadIsRunning = false;
+		this.gui = gui;
 	}
 
 	/**
