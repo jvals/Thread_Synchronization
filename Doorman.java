@@ -21,7 +21,8 @@ public class Doorman extends Thread {
 	 * Starts the doorman running as a separate thread.
 	 */
 	public void startThread() {
-		// Incomplete
+		threadIsRunning = true;
+		start();
 	}
 
 	/**
