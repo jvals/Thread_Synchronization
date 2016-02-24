@@ -29,7 +29,7 @@ public class Doorman extends Thread {
 	 * Stops the doorman thread.
 	 */
 	public void stopThread() {
-		// Incomplete
+		threadIsRunning = false;
 	}
 
 	// Add more methods as needed
