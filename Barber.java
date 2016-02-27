@@ -8,33 +8,75 @@ public class Barber {
 	private boolean threadIsRunning;
 	private Gui gui;
 	private int pos;
+	private boolean isSleeping;
+	private boolean isBarbering;
+	private boolean isWaiting;
 
-	/**
-	 * Creates a new barber.
-	 * @param queue		The customer queue.
-	 * @param gui		The GUI.
-	 * @param pos		The position of this barber's chair
-	 */
 	public Barber(CustomerQueue queue, Gui gui, int pos) { 
 		this.customerQueue = queue;
 		this.gui = gui;
 		this.pos = pos;
+		isWaiting = true;
+		isSleeping = false;
+		isBarbering = false;
+	}
+
+	public void barber(){
+
+		isBarbering = true;
+		isSleeping = false;
+		isWaiting = false;
+
+	}
+
+	public void doneBarbering(){
+
+		isSleeping = true;
+		isBarbering = false;
+		isWaiting = false;
+		gui.barberIsSleeping();
+
+	}
+
+	public void doneSleeping(){
+
+		isWaiting = true;
+		isSleeping = false;
+		isBarbering = false;
+
 	}
 
 	/**
 	 * Starts the barber running as a separate thread.
 	 */
 	public void startThread() {
-		// Incomplete
+		threadIsRunning = true;
+		start();
 	}
 
 	/**
 	 * Stops the barber thread.
 	 */
 	public void stopThread() {
-		// Incomplete
+		threadIsRunning = false;
 	}
 
-	// Add more methods as needed
+
+
+	@Override
+	public void run() {
+		while (threadIsRunning) {
+			try {
+				int minimum = Globals.MIN_BARBER_SLEEP;
+				int maximum = Globals.MAX_DOORMAN_SLEEP;
+				sleep(minimum+(int)(Math.random()*(maximum-minimum+1)));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			customerQueue.addNewCustomer();
+			gui.println("The doorman has added a new customer to the queue.");
+		}
+	}
 }
 
