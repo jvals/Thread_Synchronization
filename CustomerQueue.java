@@ -7,6 +7,7 @@ public class CustomerQueue {
 	private LinkedBlockingQueue<Customer> customerQueue;
 	private int queueLength;
 	private Gui gui;
+	private int nextSeat;
 
 	/**
 	 * Creates a new customer queue.
@@ -21,7 +22,21 @@ public class CustomerQueue {
 		customerQueue = new LinkedBlockingQueue<>(queueLength);
 		this.queueLength = queueLength;
 		this.gui = gui;
+		nextSeat = 0;
 	}
+
+    public void addNewCustomer() {
+        Customer customer = new Customer();
+        try {
+            customerQueue.put(customer);
+            gui.fillLoungeChair(nextSeat++, customer);
+			if (nextSeat >= queueLength) {
+				nextSeat = 0;
+			}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 	// Add more methods as needed
 }
