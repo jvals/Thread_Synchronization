@@ -12,13 +12,15 @@ public class Customer implements Constants {
 	private int customerID;
 	/** An integer specifying the look of this customer, used by the GUI only */
 	private int customerLook;
+	private int myChairPosition;
 
 	/**
 	 * Creates a new customer, giving him a unique ID and a random look.
 	 */
-	public Customer() {
+	public Customer(int charPosition) {
 		customerID = ++nextID;
 		customerLook = (int)(Math.random()*NOF_CUSTOMER_LOOKS);
+		myChairPosition = charPosition;
 	}
 
 	/**
@@ -35,5 +37,9 @@ public class Customer implements Constants {
 	 */
 	public Image getImage(){
 		return BarbershopGui.customerImages[customerLook];
+	}
+
+	public int getChairPosition() {
+		return myChairPosition;
 	}
 }
