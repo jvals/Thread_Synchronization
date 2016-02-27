@@ -25,16 +25,24 @@ public class Barber extends Thread {
 	public void barber(){
 
 		gui.fillBarberChair(this.pos, customerQueue.getCustomer());
-		sleep(Globals.barberWork);
+		try {
+			sleep(Globals.barberWork);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		doneBarbering();
 
 	}
 
 	public void doneBarbering(){
 
-		gui.emtptyBarberChair(this.pos);
+		gui.emptyBarberChair(this.pos);
 		gui.barberIsSleeping(this.pos);
-		sleep(Globals.barberSleep);
+		try {
+			sleep(Globals.barberSleep);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		doneSleeping();
 
 	}
@@ -66,11 +74,6 @@ public class Barber extends Thread {
 	@Override
 	public void run() {
 		while (threadIsRunning) {
-			try {
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
 			barber();
 

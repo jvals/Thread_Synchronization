@@ -25,7 +25,7 @@ public class CustomerQueue {
 		nextSeat = 0;
 	}
 
-    public void addNewCustomer() {
+    public synchronized void addNewCustomer() {
         Customer customer = new Customer(nextSeat);
         try {
             customerQueue.put(customer);
@@ -36,10 +36,21 @@ public class CustomerQueue {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+		notify();
     }
 
-	public Customer getCustomer() {
+	public synchronized Customer getCustomer() {
+		while(customerQueue.size() == 0) {
+			// Waiting for customers
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
 		Customer customer = customerQueue.poll();
+		System.out.println(customer.getChairPosition());
 		gui.emptyLoungeChair(customer.getChairPosition());
 		return customer;
 	}

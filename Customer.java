@@ -17,10 +17,10 @@ public class Customer implements Constants {
 	/**
 	 * Creates a new customer, giving him a unique ID and a random look.
 	 */
-	public Customer(int charPosition) {
+	public Customer(int chairPosition) {
 		customerID = ++nextID;
 		customerLook = (int)(Math.random()*NOF_CUSTOMER_LOOKS);
-		myChairPosition = charPosition;
+		myChairPosition = chairPosition;
 	}
 
 	/**
