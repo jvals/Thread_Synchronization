@@ -8,22 +8,15 @@ public class Barber extends Thread {
 	private boolean threadIsRunning;
 	private Gui gui;
 	private int pos;
-	private boolean isSleeping;
-	private boolean isBarbering;
-	private boolean isWaiting;
 
 	public Barber(CustomerQueue queue, Gui gui, int pos) { 
 		this.customerQueue = queue;
 		this.gui = gui;
 		this.pos = pos;
 		this.threadIsRunning = false;
-		isWaiting = true;
-		isSleeping = false;
-		isBarbering = false;
 	}
 
 	public void barber(){
-
 		gui.fillBarberChair(this.pos, customerQueue.getCustomer());
 		try {
 			sleep(Globals.barberWork);
@@ -31,7 +24,6 @@ public class Barber extends Thread {
 			e.printStackTrace();
 		}
 		doneBarbering();
-
 	}
 
 	public void doneBarbering(){
@@ -51,7 +43,6 @@ public class Barber extends Thread {
 
 		gui.barberIsAwake(this.pos);
 		barber();
-
 	}
 
 	/**
@@ -74,9 +65,7 @@ public class Barber extends Thread {
 	@Override
 	public void run() {
 		while (threadIsRunning) {
-
 			barber();
-
 			gui.println("Perform barbering");
 		}
 	}
