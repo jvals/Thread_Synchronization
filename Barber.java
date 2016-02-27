@@ -3,6 +3,12 @@
  * Barbershop thread synchronization example.
  */
 public class Barber {
+	
+	private CustomerQueue customerQueue;
+	private boolean threadIsRunning;
+	private Gui gui;
+	private int pos;
+
 	/**
 	 * Creates a new barber.
 	 * @param queue		The customer queue.
@@ -11,6 +17,11 @@ public class Barber {
 	 */
 	public Barber(CustomerQueue queue, Gui gui, int pos) { 
 		// Incomplete
+
+		this.customerQueue = queue;
+		this.gui = gui;
+		this.pos = pos;
+
 	}
 
 	/**
