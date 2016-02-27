@@ -1,6 +1,6 @@
 /**
  * This class implements the barber's part of the
- * Barbershop thread synchronization example.
+ * Barbershop thread synchronization example.hi
  */
 public class Barber {
 	
@@ -16,12 +16,9 @@ public class Barber {
 	 * @param pos		The position of this barber's chair
 	 */
 	public Barber(CustomerQueue queue, Gui gui, int pos) { 
-		// Incomplete
-
 		this.customerQueue = queue;
 		this.gui = gui;
 		this.pos = pos;
-
 	}
 
 	/**
