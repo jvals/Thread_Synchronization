@@ -2,7 +2,7 @@
  * This class implements the barber's part of the
  * Barbershop thread synchronization example.hi
  */
-public class Barber {
+public class Barber extends Thread {
 	
 	private CustomerQueue customerQueue;
 	private boolean threadIsRunning;
@@ -16,6 +16,7 @@ public class Barber {
 		this.customerQueue = queue;
 		this.gui = gui;
 		this.pos = pos;
+		this.threadIsRunning = false;
 		isWaiting = true;
 		isSleeping = false;
 		isBarbering = false;
@@ -23,26 +24,25 @@ public class Barber {
 
 	public void barber(){
 
-		isBarbering = true;
-		isSleeping = false;
-		isWaiting = false;
+		gui.fillBarberChair(this.pos, customerQueue.getCustomer());
+		sleep(Globals.barberWork);
+		doneBarbering();
 
 	}
 
 	public void doneBarbering(){
 
-		isSleeping = true;
-		isBarbering = false;
-		isWaiting = false;
-		gui.barberIsSleeping();
+		gui.emtptyBarberChair(this.pos);
+		gui.barberIsSleeping(this.pos);
+		sleep(Globals.barberSleep);
+		doneSleeping();
 
 	}
 
 	public void doneSleeping(){
 
-		isWaiting = true;
-		isSleeping = false;
-		isBarbering = false;
+		gui.barberIsAwake(this.pos);
+		barber();
 
 	}
 
@@ -67,15 +67,14 @@ public class Barber {
 	public void run() {
 		while (threadIsRunning) {
 			try {
-				int minimum = Globals.MIN_BARBER_SLEEP;
-				int maximum = Globals.MAX_DOORMAN_SLEEP;
-				sleep(minimum+(int)(Math.random()*(maximum-minimum+1)));
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			customerQueue.addNewCustomer();
-			gui.println("The doorman has added a new customer to the queue.");
+			barber();
+
+			gui.println("Perform barbering");
 		}
 	}
 }
