@@ -26,7 +26,7 @@ public class CustomerQueue {
 	}
 
     public void addNewCustomer() {
-        Customer customer = new Customer();
+        Customer customer = new Customer(nextSeat);
         try {
             customerQueue.put(customer);
             gui.fillLoungeChair(nextSeat++, customer);
@@ -37,6 +37,12 @@ public class CustomerQueue {
             e.printStackTrace();
         }
     }
+
+	public Customer getCustomer() {
+		Customer customer = customerQueue.poll();
+		gui.emptyLoungeChair(customer.getChairPosition());
+		return customer;
+	}
 
 	// Add more methods as needed
 }
