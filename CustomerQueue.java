@@ -27,7 +27,14 @@ public class CustomerQueue {
 
     public synchronized void addNewCustomer() {
         Customer customer = new Customer(nextSeat);
-        try {
+        while (customerQueue.size() == queueLength) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
             customerQueue.put(customer);
             gui.fillLoungeChair(nextSeat++, customer);
 			if (nextSeat >= queueLength) {
@@ -52,6 +59,7 @@ public class CustomerQueue {
 		Customer customer = customerQueue.poll();
 		System.out.println(customer.getChairPosition());
 		gui.emptyLoungeChair(customer.getChairPosition());
+		notify();
 		return customer;
 	}
 
