@@ -42,7 +42,7 @@ public class Barber extends Thread {
 	public void doneSleeping(){
 
 		gui.barberIsAwake(this.pos);
-		barber();
+
 	}
 
 	/**
