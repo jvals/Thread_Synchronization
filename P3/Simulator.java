@@ -21,6 +21,7 @@ public class Simulator implements Constants
 	private long avgArrivalInterval;
 	// Add member variables as needed
 	private CPU cpu;
+	private IO io;
 
 	/**
 	 * Constructs a scheduling simulator with the given parameters.
@@ -45,6 +46,7 @@ public class Simulator implements Constants
 		clock = 0;
 		// Add code as needed
 		cpu = new CPU(gui, statistics, cpuQueue, maxCpuTime);
+		io = new IO(ioQueue, statistics, gui, avgIoTime);
     }
 
     /**
@@ -153,7 +155,6 @@ public class Simulator implements Constants
 		
 		//Actually switch the process
 		eventQueue.insertEvent(cpu.switchProcess(clock));
-
 		statistics.nofSwitchedProcesses++;
 
 	}
@@ -164,9 +165,12 @@ public class Simulator implements Constants
 	private void endProcess() {
 		
 		Process endingProcess = cpu.getRunningProcess();
+		eventQueue.insertEvent(cpu.activeProcessLeft(clock));
+		memory.processCompleted(endingProcess);
 		statistics.totProcessTimeInSystem += (clock)-endingProcess.getCreationTime();
 		statistics.nofCompletedProcesses++;
-
+		flushMemoryQueue();
+		endingProcess.updateStatistics(statistics);
 	}
 
 	/**
@@ -175,7 +179,10 @@ public class Simulator implements Constants
 	 */
 	private void processIoRequest() {
 		// Incomplete
-
+		Process process = cpu.getRunningProcess();
+		process.leftCPU(clock);
+		eventQueue.insertEvent(io.addIoRequest(process, clock));
+		eventQueue.insertEvent(cpu.activeProcessLeft(clock));
 		statistics.nofIOReqests++;
 
 	}
@@ -186,6 +193,10 @@ public class Simulator implements Constants
 	 */
 	private void endIoOperation() {
 		// Incomplete
+		Process endProcess = io.removeRunningProcess();
+		endProcess.leftIo(clock);
+		eventQueue.insertEvent(cpu.insertProcess(endProcess, clock));
+		eventQueue.insertEvent(io.runIoOperation(clock));
 	}
 
 	/**
