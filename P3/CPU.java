@@ -43,4 +43,11 @@ public class CPU {
 			return null;
 		}
 
+	// Process leaves the CPU
+	public Event activeProcessLeft(int clock) {
+		runningProcess = null;
+		gui.setCpuActive(null);
+		return switchProcess(clock);
+	}
+
 }
