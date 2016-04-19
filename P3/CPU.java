@@ -10,7 +10,9 @@ public class CPU {
 		this.statistics = statistics;
 		this.cpuQueue = cpuQueue;
 		this.cpuUsageLimit = cpuUsageLimit;
-	}}	public Event insertProcess(Process p, int clock) {
+	}
+	
+	public Event insertProcess(Process p, int clock) {
 		cpuQueue.insert(p);
 		if(runningProcess == null) {
 			return switchProcess(clock);
@@ -18,3 +20,27 @@ public class CPU {
 			return null;
 		}
 	}
+	
+	// Put a process from the cpuqueue into the CPU
+	public Event switchProcess(int clock) {
+		if (runningProcess != null && !cpuQueue.isEmpty()) {
+			runningProcess.leftCpu(clock);
+			cpuQueue.insert(runningProcess);
+			runningProcess = (Process)cpuQueue.removeNext();
+			runningProcess.enteredCpu(clock);
+			gui.setCpuActive(runningProcess);
+			statistics.nofProcessSwitches++;
+		} else {
+			if(!cpuQueue.isEmpty()) {
+				runningProcess = (Process)cpuQueue.removeNext();
+				runningProcess.enteredCpu(clock);
+				gui.setCpuActive(runningProcess);
+			}
+		}
+		if (runningProcess != null) {
+			return runningProcess.getNextEvent(clock, maxCpuTime);
+		} else {
+			return null;
+		}
+
+}
