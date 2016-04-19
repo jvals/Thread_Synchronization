@@ -150,14 +150,20 @@ public class Simulator implements Constants
 	 * Simulates a process switch.
 	 */
 	private void switchProcess() {
-		// Incomplete
+		
+		//Actually switch the process
+
+		statistics.nofSwitchedProcesses++;
+
 	}
 
 	/**
 	 * Ends the active process, and deallocates any resources allocated to it.
 	 */
 	private void endProcess() {
-		// Incomplete
+		
+		statistics.nofCompletedProcesses++;
+
 	}
 
 	/**

@@ -9,6 +9,17 @@ public class Statistics
 	public long nofCompletedProcesses = 0;
 	/** The number of processes that have entered the system */
 	public long nofCreatedProcesses = 0;
+
+
+	//Added variables
+	public long nofSwitchedProcesses = 0;
+
+	public long nofIOReqests = 0;
+
+	public long avgThroughput = 0;
+
+	public long totCPUProcessTime = 0;
+
 	/** The total time that all completed processes have spent waiting for memory */
 	public long totalTimeSpentWaitingForMemory = 0;
 	/** The time-weighted length of the memory queue, divide this number by the total time to get average queue length */
@@ -21,6 +32,9 @@ public class Statistics
 	 * @param simulationLength	The number of milliseconds that the simulation covered.
 	 */
 	public void printReport(long simulationLength) {
+
+		avgThroughput = (double)nofCompletedProcesses/simulationLength;
+
 		System.out.println();
 		System.out.println("Simulation statistics:");
 		System.out.println();
