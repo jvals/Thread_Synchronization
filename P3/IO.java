@@ -29,9 +29,7 @@ public class IO implements Constants {
 			runningProcess.enteredIo(clock);
 			gui.setIoActive(runningProcess);
 			statistics.nofIoRequest++;
-			//int ioOperationTime = 1 + (int)(2*Math.random()*avgIoDuration);
-			//return new Event(END_IO, clock + ioOperationTime);
-			
+			return new Event(END_IO, clock + avgIoDuration);
 		} else {
 			return null;
 		}
