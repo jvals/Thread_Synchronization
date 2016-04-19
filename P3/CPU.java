@@ -50,4 +50,17 @@ public class CPU {
 		return switchProcess(clock);
 	}
 
+	// Get the time since the last time it was called
+	public void timePassed(int time) {
+		if (runningProcess != null) {
+			runningProcess.cpuTimePassed(time)
+			statistics.totCPUProcessTime += time;
+		}
+		statistics.totalCPUQueueTime += cpuQueue.getQueueLength()*time;
+
+		statistics.LargestCpuQueueLength = max(statistics.LargestCpuQueueLength, cpuQueue.getQueueLength());
+
+		}
+	}
+
 }
