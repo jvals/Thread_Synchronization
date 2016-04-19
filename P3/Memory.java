@@ -12,9 +12,8 @@ public class Memory {
 	/** The amount of free memory in the memory device */
 	private long freeMemory;
 
-	private long currentWaitingProcessID = -1;
-
-	private long previousWaitTime = -1;
+	private long startWaitTime = 0;
+	private Boolean waiting = false;
 
 	/**
 	 * Creates a new memory device with the given parameters.
@@ -60,18 +59,20 @@ public class Memory {
 				freeMemory -= nextProcess.getMemoryNeeded();
 				nextProcess.leftMemoryQueue(clock);
 				memoryQueue.removeNext();
-				return nextProcess;
-			}
-			else { // There is not enough free memory, the process must wait
 
-				if(currentWaitingProcessID == nextProcess.getProcessID()){
-					totMemWaitTime += (clock-previousWaitTime);
+				if(waiting == true){
+					statistics.totMemWaitTime += clock - startWaitTime;
 				}
 
-				currentWaitingProcessID = nextProcess.getProcessID();
+				waiting = false;
 
+				return nextProcess;
+			} else {
+				if(waiting == false){
+					startWaitTime  = clock;
+					waiting = true;
+				} 
 			}
-
 		}
 		return null;
 	}

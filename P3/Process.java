@@ -29,6 +29,8 @@ public class Process implements Constants
 
     private long creationTime;
 
+    public long previousMemRequestTime = 0;
+
 	/** The time that this process has spent waiting in the memory queue */
 	private long timeSpentWaitingForMemory = 0;
 	/** The time that this process has spent waiting in the CPU queue */
