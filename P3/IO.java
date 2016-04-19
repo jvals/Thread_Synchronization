@@ -17,8 +17,7 @@ public class IO implements Constants {
 	//Adds a process requesting an IO operation to the ioQueue
 	public Event addIoRequest(Process ioRequest, int clock ) {
 		ioQueue.insert(ioRequest);
-		//???????:
-		//ioRequest.calculateTimeToNextIoOperation();
+		ioRequest.timeToNextIoOperation();
 		return runIoOperation(clock);
 		
 	}
@@ -30,7 +29,6 @@ public class IO implements Constants {
 			runningProcess.enteredIo(clock);
 			gui.setIoActive(runningProcess);
 			statistics.nofIoRequest++;
-			//?????:
 			//int ioOperationTime = 1 + (int)(2*Math.random()*avgIoDuration);
 			//return new Event(END_IO, clock + ioOperationTime);
 			
