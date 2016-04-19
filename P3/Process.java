@@ -130,4 +130,40 @@ public class Process implements Constants
 	}
 
 	// Add more methods as needed
+	public void timeToNextIO() {
+		timeToNextIoOperation = avgIoInterval;
+	}
+	public void leftCPU(long clock) {
+		timeSpentInCpu += clock-timeOfLastEvent;
+		timeOfLastEvent = clock;
+	}
+
+	public void enteredCPU(long clock) {
+		nofTimesInReadyQueue++;
+		timeSpentInReadyQueue += clock - timeOfLastEvent;
+		timeOfLastEvent = clock;
+	}
+
+	public Event getNextEvent(long clock, long cpuLimit) {
+		if(cpuTimeNeeded < cpuLimit) {
+			if (cpuTimeNeeded < timeToNextIoOperation) {
+				return new Event(END_PROCESS, clock + cpuTimeNeeded);
+			} else {
+				return new Event(IO_REQUEST, clock + timeToNextIoOperation);
+			}
+		} else {
+			if(timeToNextIoOperation < cpuLimit) {
+				return new Event(IO_REQUEST, clock + timeToNextIoOperation);
+			} else {
+				return new Event(SWITCH_PROCESS, clock + cpuLimit);
+			}
+		}
+	}
+
+	public void cpuTimePassed(long time) {
+		cpuTimeNeeded -= time;
+		timeToNextIoOperation -= time;
+	}
+
+
 }
