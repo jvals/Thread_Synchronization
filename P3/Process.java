@@ -167,5 +167,15 @@ public class Process implements Constants
 		timeToNextIoOperation -= time;
 	}
 
+	public void leftIo(long clock) {
+		timeSpentInIo += clock -timeOfLastEvent;
+		timeOfLastEvent = clock;
+	}
+
+	public void enteredIo(long clock) {
+		nofTimesInIoQueue++;
+		timeSpentWaitingForIo += clock-timeOfLastEvent;
+		timeOfLastEvent =clock;
+	}
 
 }
