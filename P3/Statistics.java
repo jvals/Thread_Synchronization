@@ -48,7 +48,7 @@ public class Statistics
 
 		avgThroughput = (double)nofCompletedProcesses/simulationLength;
 		avgMemWaitTime = (double)totMemWaitTime/simulationLength;
-		nonBusyCPUTime = (double)simulationLength - totCPUProcessTime;
+		nonBusyCPUTime = simulationLength - totCPUProcessTime;
 		cpuUtilization = (double) totCPUProcessTime/simulationLength;
 		percentAvailableTime = (double) nonBusyCPUTime/simulationLength;
 
