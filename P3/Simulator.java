@@ -152,6 +152,7 @@ public class Simulator implements Constants
 	private void switchProcess() {
 		
 		//Actually switch the process
+		eventQueue.insertEvent(cpu.switchProcess(clock));
 
 		statistics.nofSwitchedProcesses++;
 

@@ -29,7 +29,6 @@ public class CPU {
 			runningProcess = (Process)cpuQueue.removeNext();
 			runningProcess.enteredCPU(clock);
 			gui.setCpuActive(runningProcess);
-			statistics.nofSwitchedProcesses++;
 		} else {
 			if(!cpuQueue.isEmpty()) {
 				runningProcess = (Process)cpuQueue.removeNext();
