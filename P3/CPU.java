@@ -3,16 +3,16 @@ public class CPU {
 	private Statistics statistics;
 	private Queue cpuQueue;
 	private Process runningProcess;
-	private int cpuUsageLimit;
+	private long cpuUsageLimit;
 	
-	public CPU(Gui gui, Statistics statistics, Queue cpuQueue, int cpuUsageLimit) {
+	public CPU(Gui gui, Statistics statistics, Queue cpuQueue, long cpuUsageLimit) {
 		this.gui = gui;
 		this.statistics = statistics;
 		this.cpuQueue = cpuQueue;
 		this.cpuUsageLimit = cpuUsageLimit;
 	}
 	
-	public Event insertProcess(Process p, int clock) {
+	public Event insertProcess(Process p, long clock) {
 		cpuQueue.insert(p);
 		if(runningProcess == null) {
 			return switchProcess(clock);
@@ -22,45 +22,44 @@ public class CPU {
 	}
 	
 	// Put a process from the cpuqueue into the CPU
-	public Event switchProcess(int clock) {
+	public Event switchProcess(long clock) {
 		if (runningProcess != null && !cpuQueue.isEmpty()) {
-			runningProcess.leftCpu(clock);
+			runningProcess.leftCPU(clock);
 			cpuQueue.insert(runningProcess);
 			runningProcess = (Process)cpuQueue.removeNext();
-			runningProcess.enteredCpu(clock);
+			runningProcess.enteredCPU(clock);
 			gui.setCpuActive(runningProcess);
-			statistics.nofProcessSwitches++;
+			statistics.nofSwitchedProcesses++;
 		} else {
 			if(!cpuQueue.isEmpty()) {
 				runningProcess = (Process)cpuQueue.removeNext();
-				runningProcess.enteredCpu(clock);
+				runningProcess.enteredCPU(clock);
 				gui.setCpuActive(runningProcess);
 			}
 		}
 		if (runningProcess != null) {
-			return runningProcess.getNextEvent(clock, maxCpuTime);
+			return runningProcess.getNextEvent(clock, cpuUsageLimit);
 		} else {
 			return null;
 		}
+	}
 
 	// Process leaves the CPU
-	public Event activeProcessLeft(int clock) {
+	public Event activeProcessLeft(long clock) {
 		runningProcess = null;
 		gui.setCpuActive(null);
 		return switchProcess(clock);
 	}
 
 	// Get the time since the last time it was called
-	public void timePassed(int time) {
+	public void timePassed(long time) {
 		if (runningProcess != null) {
-			runningProcess.cpuTimePassed(time)
+			runningProcess.cpuTimePassed(time);
 			statistics.totCPUProcessTime += time;
 		}
 		statistics.totalCPUQueueTime += cpuQueue.getQueueLength()*time;
 
 		statistics.LargestCpuQueueLength = max(statistics.LargestCpuQueueLength, cpuQueue.getQueueLength());
-
-		}
 	}
 
 	public Process getRunningProcess() {
