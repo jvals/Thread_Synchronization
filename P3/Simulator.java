@@ -20,6 +20,7 @@ public class Simulator implements Constants
 	/** The average length between process arrivals */
 	private long avgArrivalInterval;
 	// Add member variables as needed
+	private CPU cpu;
 
 	/**
 	 * Constructs a scheduling simulator with the given parameters.
@@ -43,6 +44,7 @@ public class Simulator implements Constants
 		memory = new Memory(memoryQueue, memorySize, statistics);
 		clock = 0;
 		// Add code as needed
+		cpu = new CPU(gui, cpuQueue, maxCpuTime, statistics);
     }
 
     /**
@@ -67,6 +69,7 @@ public class Simulator implements Constants
 			// Let the memory unit and the GUI know that time has passed
 			memory.timePassed(timeDifference);
 			gui.timePassed(timeDifference);
+			cpu.timePassed(timeDifference);
 			// Deal with the event
 			if (clock < simulationLength) {
 				processEvent(event);
@@ -132,12 +135,9 @@ public class Simulator implements Constants
 			
 			// TODO: Add this process to the CPU queue!
 			// Also add new events to the event queue if needed
+			p.timeToNextIO();
+			eventQueue.insertEvent(cpu.insertProcess(p, clock));
 
-			// Since we haven't implemented the CPU and I/O device yet,
-			// we let the process leave the system immediately, for now.
-			memory.processCompleted(p);
-			// Try to use the freed memory:
-			flushMemoryQueue();
 			// Update statistics
 			p.updateStatistics(statistics);
 
