@@ -44,7 +44,7 @@ public class Simulator implements Constants
 		memory = new Memory(memoryQueue, memorySize, statistics);
 		clock = 0;
 		// Add code as needed
-		cpu = new CPU(gui, cpuQueue, maxCpuTime, statistics);
+		cpu = new CPU(gui, statistics, cpuQueue, maxCpuTime);
     }
 
     /**
