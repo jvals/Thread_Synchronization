@@ -24,16 +24,16 @@ public class CPU {
 	// Put a process from the cpuqueue into the CPU
 	public Event switchProcess(long clock) {
 		if (runningProcess != null && !cpuQueue.isEmpty()) {
-			runningProcess.leftCpu(clock);
+			runningProcess.leftCPU(clock);
 			cpuQueue.insert(runningProcess);
 			runningProcess = (Process)cpuQueue.removeNext();
-			runningProcess.enteredCpu(clock);
+			runningProcess.enteredCPU(clock);
 			gui.setCpuActive(runningProcess);
-			statistics.nofProcessSwitches++;
+			statistics.nofSwitchedProcesses++;
 		} else {
 			if(!cpuQueue.isEmpty()) {
 				runningProcess = (Process)cpuQueue.removeNext();
-				runningProcess.enteredCpu(clock);
+				runningProcess.enteredCPU(clock);
 				gui.setCpuActive(runningProcess);
 			}
 		}
@@ -42,6 +42,7 @@ public class CPU {
 		} else {
 			return null;
 		}
+	}
 
 	// Process leaves the CPU
 	public Event activeProcessLeft(long clock) {
@@ -53,14 +54,12 @@ public class CPU {
 	// Get the time since the last time it was called
 	public void timePassed(long time) {
 		if (runningProcess != null) {
-			runningProcess.cpuTimePassed(time)
+			runningProcess.cpuTimePassed(time);
 			statistics.totCPUProcessTime += time;
 		}
 		statistics.totalCPUQueueTime += cpuQueue.getQueueLength()*time;
 
 		statistics.LargestCpuQueueLength = max(statistics.LargestCpuQueueLength, cpuQueue.getQueueLength());
-
-		}
 	}
 
 	public Process getRunningProcess() {
