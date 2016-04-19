@@ -59,7 +59,7 @@ public class CPU {
 		}
 		statistics.totalCPUQueueTime += cpuQueue.getQueueLength()*time;
 
-		statistics.LargestCpuQueueLength = max(statistics.LargestCpuQueueLength, cpuQueue.getQueueLength());
+		statistics.largestCpuQueueLength = Math.max(statistics.largestCpuQueueLength, cpuQueue.getQueueLength());
 	}
 
 	public Process getRunningProcess() {
