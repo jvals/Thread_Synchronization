@@ -4,31 +4,32 @@ public class IO implements Constants {
 	private Statistics statistics;
 	private Gui gui;
     private Process runningProcess;
-	private int avgIoDuration;
+	private long avgIoDuration;
 	
-	public IO {
+	public IO(Queue ioQueue, Statistics statistics, Gui gui, long avgIoDuration) {
 		this.ioQueue = ioQueue;
 		this.statistics = statistics;
 		this.gui = gui;
-		this.runningProcess = runningProcess;
+		
 		this.avgIoDuration = avgIoDuration;
 	}
 	
 	//Adds a process requesting an IO operation to the ioQueue
-	public Event addIoRequest(Process ioRequest, int clock ) {
+	public Event addIoRequest(Process ioRequest, long clock ) {
 		ioQueue.insert(ioRequest);
-		ioRequest.timeToNextIoOperation();
+		ioRequest.timeToNextIO();
 		return runIoOperation(clock);
+
 		
 	}
 	
 	//Runs the first IO operation in the queue, if the queue is nonempty and there are no processes currently running
-	public Event runIoOperation(int clock) {
+	public Event runIoOperation(long clock) {
 		if((runningProcess == null) && (!ioQueue.isEmpty())) {
 			runningProcess = (Process)ioQueue.removeNext();
 			runningProcess.enteredIo(clock);
 			gui.setIoActive(runningProcess);
-			statistics.nofIoRequest++;
+			statistics.nofIOReqests++;
 			return new Event(END_IO, clock + avgIoDuration);
 		} else {
 			return null;
@@ -41,11 +42,12 @@ public class IO implements Constants {
 		runningProcess = null;
 		gui.setIoActive(null);
 		return removedProcess;
+
+	}
 	
 	// Gets the time that has passed since the last time it was called
 	public void timePassed(int time) {
 		statistics.totalIoQueueTime += ioQueue.getQueueLength()*time;
-		statistics.LargestIoQueueLength = Math.max(statistics.LargestIOQueueLength, ioQueue.getQueueLength());
-		}
-	}	
+		statistics.LargestIoQueueLength = Math.max(statistics.LargestIoQueueLength, ioQueue.getQueueLength());
+	}
 }
