@@ -11,14 +11,27 @@ public class Statistics
 	public long nofCreatedProcesses = 0;
 
 
-	//Added variables
+	//Added variables---------------------------------------------
 	public long nofSwitchedProcesses = 0;
 
 	public long nofIOReqests = 0;
 
-	public long avgThroughput = 0;
+	public double avgThroughput = 0;
 
+
+	//Memory dependent vars
+	public double avgMemWaitTime = 0;	
+	public long totMemWaitTime = 0;
+
+	// CPU dependent vars
 	public long totCPUProcessTime = 0;
+	public double avgProcessTimeInSystem = 0;
+	public long totProcessTimeInSystem = 0;
+	public long nonBusyCPUTime = 0;
+	public double cpuUtilization = 0;
+	public long percentAvailableTime = 0;
+	//--------------------------------------------------------------
+
 
 	/** The total time that all completed processes have spent waiting for memory */
 	public long totalTimeSpentWaitingForMemory = 0;
@@ -34,6 +47,10 @@ public class Statistics
 	public void printReport(long simulationLength) {
 
 		avgThroughput = (double)nofCompletedProcesses/simulationLength;
+		avgMemWaitTime = (double)totMemWaitTime/simulationLength;
+		nonBusyCPUTime = (double)simulationLength - totCPUProcessTime;
+		cpuUtilization = (double) totCPUProcessTime/simulationLength;
+		percentAvailableTime = (double) nonBusyCPUTime/simulationLength;
 
 		System.out.println();
 		System.out.println("Simulation statistics:");

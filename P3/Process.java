@@ -27,6 +27,8 @@ public class Process implements Constants
 	/** The time left until the next time this process needs I/O */
     private long timeToNextIoOperation = 0;
 
+    private long creationTime;
+
 	/** The time that this process has spent waiting in the memory queue */
 	private long timeSpentWaitingForMemory = 0;
 	/** The time that this process has spent waiting in the CPU queue */
@@ -61,6 +63,8 @@ public class Process implements Constants
 		avgIoInterval = (1 + (long)(Math.random()*25))*cpuTimeNeeded/100;
 		// The first and latest event involving this process is its creation
 		timeOfLastEvent = creationTime;
+
+		this.creationTime = creationTime;
 		// Assign a process ID
 		processId = nextProcessId++;
 		// Assign a pseudo-random color used by the GUI
@@ -104,6 +108,14 @@ public class Process implements Constants
      */
 	public long getMemoryNeeded() {
 		return memoryNeeded;
+	}
+
+	public long getProcessID(){
+		return processId;
+	}
+
+	public long getCreationTime(){
+		return creationTime;
 	}
 
     /**

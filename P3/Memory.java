@@ -12,6 +12,10 @@ public class Memory {
 	/** The amount of free memory in the memory device */
 	private long freeMemory;
 
+	private long currentWaitingProcessID = -1;
+
+	private long previousWaitTime = -1;
+
 	/**
 	 * Creates a new memory device with the given parameters.
 	 * @param memoryQueue	The memory queue to be used.
@@ -58,6 +62,16 @@ public class Memory {
 				memoryQueue.removeNext();
 				return nextProcess;
 			}
+			else { // There is not enough free memory, the process must wait
+
+				if(currentWaitingProcessID == nextProcess.getProcessID()){
+					totMemWaitTime += (clock-previousWaitTime);
+				}
+
+				currentWaitingProcessID = nextProcess.getProcessID();
+
+			}
+
 		}
 		return null;
 	}
