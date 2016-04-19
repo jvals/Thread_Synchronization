@@ -162,6 +162,8 @@ public class Simulator implements Constants
 	 */
 	private void endProcess() {
 		
+		Process endingProcess = cpu.getActiveProcess();
+		statistics.totProcessTimeInSystem += (clock)-endingProcess.getCreationTime();
 		statistics.nofCompletedProcesses++;
 
 	}
@@ -172,6 +174,9 @@ public class Simulator implements Constants
 	 */
 	private void processIoRequest() {
 		// Incomplete
+
+		statistics.nofIOReqests++;
+
 	}
 
 	/**
