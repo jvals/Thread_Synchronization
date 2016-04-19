@@ -20,6 +20,8 @@ public class Statistics
 
 	public long largestCpuQueueLength = 0;
 	public long totalCPUQueueTime = 0;
+	public long totalIoQueueTime = 0;
+	public long LargestIoQueueLength = 0;
 
 	//Memory dependent vars
 	public double avgMemWaitTime = 0;	
