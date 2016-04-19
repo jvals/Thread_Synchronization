@@ -63,4 +63,8 @@ public class CPU {
 		}
 	}
 
+	public Process getRunningProcess() {
+		return runningProcess;
+	}
+
 }
