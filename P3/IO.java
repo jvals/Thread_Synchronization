@@ -34,7 +34,7 @@ public class IO implements Constants {
 			return null;
 		}
 	}
-	
+	 
 	//Remove the currently running process 
 	public Process removeRunningProcess() {
 		Process removedProcess = runningProcess;
@@ -45,7 +45,7 @@ public class IO implements Constants {
 	// Gets the time that has passed since the last time it was called
 	public void timePassed(int time) {
 		statistics.totalIoQueueTime += ioQueue.getQueueLength()*time;
-		statistics.LargestIoQueueLength = max(statistics.LargestIOQueueLength, ioQueue.getQueueLength());
+		statistics.LargestIoQueueLength = Math.max(statistics.LargestIOQueueLength, ioQueue.getQueueLength());
 		}
 	}	
 }
