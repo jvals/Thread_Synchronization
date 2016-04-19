@@ -162,7 +162,7 @@ public class Simulator implements Constants
 	 */
 	private void endProcess() {
 		
-		Process endingProcess = cpu.getActiveProcess();
+		Process endingProcess = cpu.getRunningProcess();
 		statistics.totProcessTimeInSystem += (clock)-endingProcess.getCreationTime();
 		statistics.nofCompletedProcesses++;
 
