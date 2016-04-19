@@ -38,7 +38,7 @@ public class CPU {
 			}
 		}
 		if (runningProcess != null) {
-			return runningProcess.getNextEvent(clock, maxCpuTime);
+			return runningProcess.getNextEvent(clock, cpuUsageLimit);
 		} else {
 			return null;
 		}
