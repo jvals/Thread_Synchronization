@@ -118,4 +118,7 @@ public class Process implements Constants
 	}
 
 	// Add more methods as needed
+	public void timeToNextIO() {
+		timeToNextIoOperation = avgIoInterval;
+	}
 }
